@@ -33,11 +33,11 @@ public class NuovoGiroApplication implements CommandLineRunner {
             System.out.println(e.getMessage());
         }
 
-        ContoBancario retrievedConto = service.findById(conto1.getId());
-        if (retrievedConto != null) {
+        try {
+            ContoBancario retrievedConto = service.findById(conto1.getId());
             System.out.println("Saldo conto: " + retrievedConto.getConto());
-        } else {
-            System.out.println("Conto non trovato");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
         }
 
         try {
