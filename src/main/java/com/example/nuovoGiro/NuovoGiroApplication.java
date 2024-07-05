@@ -18,38 +18,27 @@ public class NuovoGiroApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        ContoBancario conto1 = new ContoBancario();
-        service.addConto(conto1);
-
         try {
+            ContoBancario conto1 = new ContoBancario();
+            service.addConto(conto1);
+
             service.increaseConto(conto1.getId(), 1000);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
 
-        try {
             service.decreaseConto(conto1.getId(), 500);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
 
-        try {
             ContoBancario retrievedConto = service.findById(conto1.getId());
-            System.out.println("Saldo conto: " + retrievedConto.getConto());
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
+            if (retrievedConto != null) {
+                System.out.println("Saldo conto: " + retrievedConto.getConto());
+            } else {
+                System.out.println("Conto non trovato");
+            }
 
-        try {
-            service.decreaseConto(conto1.getId(), 600);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
+//            service.decreaseConto(conto1.getId(), 600);
 
-        try {
-            service.deleteConto(conto1.getId());
+//            service.deleteConto(conto1.getId());
+            service.deleteConto(12L);
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Errore: " + e.getMessage());
         }
     }
 }

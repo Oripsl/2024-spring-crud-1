@@ -17,18 +17,20 @@ public class ContoBancario {
         this.conto = 0;
     }
 
-    public void deposit(double importo) {
+    public boolean deposit(double importo) {
         if (importo < 0) {
-            throw new IllegalArgumentException("Non è possibile depositare un importo negativo");
+            return false;
         }
         this.conto += importo;
+        return true;
     }
 
-    public void withdrawal(double importo) {
-        if (importo > this.conto) {
-            throw new IllegalArgumentException("Saldo insufficiente");
+    public boolean withdrawal(double importo) {
+        if (importo > this.conto || importo < 0) {
+            return false;
         }
         this.conto -= importo;
+        return true;
     }
 
     public Long getId() {

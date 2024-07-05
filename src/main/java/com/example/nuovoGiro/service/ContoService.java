@@ -29,7 +29,9 @@ public class ContoService {
         Optional<ContoBancario> foundConto = contoRepo.findById(id);
         if (foundConto.isPresent()) {
             ContoBancario conto = foundConto.get();
-            conto.deposit(increase);
+            if (!conto.deposit(increase)) {
+                throw new IllegalArgumentException("Non è possibile depositare un importo negativo");
+            }
             return contoRepo.save(conto);
         }
         throw new IllegalArgumentException("Conto bancario non trovato con id: " + id);
@@ -39,7 +41,9 @@ public class ContoService {
         Optional<ContoBancario> foundConto = contoRepo.findById(id);
         if (foundConto.isPresent()) {
             ContoBancario conto = foundConto.get();
-            conto.withdrawal(decrease);
+            if (!conto.withdrawal(decrease)) {
+                throw new IllegalArgumentException("Saldo insufficiente o importo negativo");
+            }
             return contoRepo.save(conto);
         }
         throw new IllegalArgumentException("Conto bancario non trovato con id: " + id);
